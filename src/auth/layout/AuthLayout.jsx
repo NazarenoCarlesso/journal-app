@@ -12,7 +12,6 @@ export const AuthLayout = () => {
       sx={{
         minHeight: '100vh',
         backgroundColor: 'primary.main',
-        background: 'radial-gradient(circle, rgba(0,167,68,1) 0%, rgba(0,83,33,1) 100%)',
         padding: 4
       }}
     >

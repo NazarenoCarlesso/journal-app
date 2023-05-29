@@ -2,9 +2,12 @@
 import { loginUserWithEmail, registerUserWithEmail, signInWithGoogle } from '../../firebase/providers'
 import { checkingCredentials, login, logout } from './authSlice'
 
-export const checkingAuthentication = (email, password) => {
+export const checkingAuthentication = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials())
+    const user = localStorage.getItem('user')
+    if (!user) return dispatch(logout())
+    dispatch(login(JSON.parse(user)))
   }
 }
 

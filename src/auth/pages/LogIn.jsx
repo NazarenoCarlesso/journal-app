@@ -3,8 +3,10 @@ import { Google } from '@mui/icons-material'
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { startGoogleSignIn, startLoginUserWithEmail } from '../../store/auth/thunks'
-import { useMemo } from 'react'
+import { checkingAuthentication, startGoogleSignIn, startLoginUserWithEmail } from '../../store/auth/thunks'
+import { useEffect, useMemo } from 'react'
+import { CheckingAuth } from './Checking'
+import { Navigate } from 'react-router-dom'
 
 // eslint-disable-next-line no-unused-vars
 const formData = {
@@ -39,12 +41,19 @@ export const LogIn = () => {
     dispatch(startGoogleSignIn())
   }
 
+  useEffect(() => {
+    if (status === 'checking') dispatch(checkingAuthentication())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  if (status === 'checking') return <CheckingAuth />
+  if (status === 'authenticated') return <Navigate to='/journal' />
+
   return (
     <>
       <Typography variant='h5' fontWeight={600} fontSize={'1.9rem'} sx={{ mb: 1 }}>
         Login
       </Typography>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField

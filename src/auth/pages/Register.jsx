@@ -4,6 +4,7 @@ import { useForm } from '../../hooks/useForm'
 import { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startRegisterUserWithEmail } from '../../store/auth/thunks'
+import { CheckingAuth } from './Checking'
 
 // eslint-disable-next-line no-unused-vars
 const formData = {
@@ -39,12 +40,14 @@ export const Register = () => {
     dispatch(startRegisterUserWithEmail(formState))
   }
 
+  if (status === 'checking') return <CheckingAuth />
+
   return (
     <>
       <Typography variant='h5' fontWeight={600} fontSize={'1.9rem'} sx={{ mb: 1 }}>
         Register
       </Typography>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField

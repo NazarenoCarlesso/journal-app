@@ -6,7 +6,7 @@ import { JournalRouter } from '../journal/router/JournalRouter'
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to='/auth/login' />
+    element: <Navigate to='/journal' />
   },
   {
     path: '/auth',

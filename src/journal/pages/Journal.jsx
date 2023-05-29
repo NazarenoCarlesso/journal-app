@@ -2,8 +2,14 @@ import { IconButton } from '@mui/material'
 // import { NoteView } from '../views/NoteView'
 import { NothingSelected } from '../views/NothingSelected'
 import { AddOutlined } from '@mui/icons-material'
+import { Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export const Journal = () => {
+  const { status } = useSelector(state => state.auth)
+
+  if (status !== 'authenticated') return <Navigate to='/auth/login' />
+
   return (
     <>
       {/* Nothing selected */}
