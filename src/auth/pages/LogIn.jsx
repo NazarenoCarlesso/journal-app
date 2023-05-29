@@ -1,18 +1,24 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { Google } from '@mui/icons-material'
-import { Button, Grid, Link, TextField, Typography } from '@mui/material'
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth/thunks'
+import { startGoogleSignIn, startLoginUserWithEmail } from '../../store/auth/thunks'
 import { useMemo } from 'react'
 
+// eslint-disable-next-line no-unused-vars
+const formData = {
+  email: 'nazareno@gmail.com',
+  password: 'nazareno1234'
+}
+
 export const LogIn = () => {
-  const { status } = useSelector(state => state.auth)
+  const { status, errorMessage } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
-  const { email, password, onInputChange } = useForm({
-    email: 'nazareno@gmail.com',
-    password: 'nazareno1234'
+  const { formState, email, password, onInputChange } = useForm({
+    email: '',
+    password: ''
   })
 
   const isAuthenticating = useMemo(() => status === 'checking', [status])
@@ -20,10 +26,13 @@ export const LogIn = () => {
   const onSubmit = (e) => {
     e.preventDefault()
     // console.log({ email, password })
+    //! NO ES ESTA LA ACCION A DESPACHAR
+    /*
     dispatch(checkingAuthentication({
       email,
       password
-    }))
+    }))*/
+    dispatch(startLoginUserWithEmail(formState))
   }
 
   const onGoogleSignIn = () => {
@@ -58,6 +67,11 @@ export const LogIn = () => {
               value={password}
               onChange={onInputChange}
             />
+          </Grid>
+          <Grid item xs={12} sm={12} display={errorMessage ? '' : 'none'} sx={{ mt: 2 }}>
+            <Alert severity='error'>
+              {errorMessage}
+            </Alert>
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12} sm={6}>

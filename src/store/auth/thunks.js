@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { signInWithGoogle } from '../../firebase/providers'
+import { loginUserWithEmail, registerUserWithEmail, signInWithGoogle } from '../../firebase/providers'
 import { checkingCredentials, login, logout } from './authSlice'
 
 export const checkingAuthentication = (email, password) => {
@@ -13,7 +13,27 @@ export const startGoogleSignIn = () => {
     dispatch(checkingCredentials())
     const result = await signInWithGoogle()
     // console.log({ result })
-    if (!result.ok) { return dispatch(logout(result.message)) }
+    if (!result.ok) { return dispatch(logout({ message: result.message })) }
+    dispatch(login(result))
+  }
+}
+
+export const startRegisterUserWithEmail = (user) => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials())
+    const result = await registerUserWithEmail(user)
+    // console.log({ result })
+    if (!result.ok) { return dispatch(logout({ message: result.message })) }
+    dispatch(login(result))
+  }
+}
+
+export const startLoginUserWithEmail = (user) => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials())
+    const result = await loginUserWithEmail(user)
+    // console.log({ result })
+    if (!result.ok) { return dispatch(logout({ message: result.message })) }
     dispatch(login(result))
   }
 }
