@@ -3,19 +3,28 @@ import { IconButton } from '@mui/material'
 import { NothingSelected } from '../views/NothingSelected'
 import { AddOutlined } from '@mui/icons-material'
 import { Navigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { startNewNote } from '../../store/journal/thunks'
+import { NoteView } from '../views/NoteView'
 
 export const Journal = () => {
+  const dispatch = useDispatch()
   const { status } = useSelector(state => state.auth)
+  const { isSaving, active } = useSelector(state => state.journal)
 
   if (status !== 'authenticated') return <Navigate to='/auth/login' />
 
+  const onClickNewNote = () => {
+    dispatch(startNewNote())
+  }
+
   return (
     <>
-      {/* Nothing selected */}
-      <NothingSelected />
-      {/* Note view */}
-      {/* <NoteView /> */}
+      {
+        active
+          ? <NoteView />
+          : <NothingSelected />
+      }
       <IconButton
         size='large'
         sx={{
@@ -26,6 +35,9 @@ export const Journal = () => {
           right: 50,
           bottom: 50
         }}
+        className='animate__animated animate__fadeInUp animate__faster'
+        onClick={onClickNewNote}
+        disabled={isSaving}
       >
         <AddOutlined sx={{ fontSize: 30 }} />
       </IconButton>

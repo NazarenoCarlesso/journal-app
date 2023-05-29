@@ -4,8 +4,17 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
   const [formState, setFormState] = useState(initialForm)
   const [formValidation, setFormValidation] = useState({})
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => createValidators(), [formState])
+  useEffect(() => {
+    // console.warn('useEffect call')
+    createValidators()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState])
+
+  // ACTUALIZA LAS NOTAS
+  useEffect(() => {
+    // console.warn('useEffect call')
+    setFormState(initialForm)
+  }, [initialForm])
 
   const onInputChange = ({ target }) => {
     const { name, value } = target

@@ -14,6 +14,7 @@ export const NothingSelected = () => {
         backgroundColor: 'primary.main',
         borderRadius: 3
       }}
+      className='animate__animated animate__fadeInRight animate__faster'
     >
       <Grid item xs={12}>
         <StarOutlined sx={{ fontSize: 100, color: 'white' }} />

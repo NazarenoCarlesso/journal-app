@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom'
+import { Navigate, Link as RouterLink } from 'react-router-dom'
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from '../../hooks/useForm'
 import { useMemo, useState } from 'react'
@@ -27,7 +27,7 @@ export const Register = () => {
   const {
     onInputChange, displayName, email, password, formState,
     isFormValid, displayNameValid, emailValid, passwordValid
-  } = useForm({ email: '', password: '', displayName: '' }, formValidations)
+  } = useForm(formData, formValidations)
 
   const { status, errorMessage } = useSelector(state => state.auth)
   const isCheckingAuth = useMemo(() => status === 'checking', [status])
@@ -41,6 +41,7 @@ export const Register = () => {
   }
 
   if (status === 'checking') return <CheckingAuth />
+  if (status === 'authenticated') return <Navigate to='/journal' />
 
   return (
     <>

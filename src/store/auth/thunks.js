@@ -40,3 +40,10 @@ export const startLoginUserWithEmail = (user) => {
     dispatch(login(result))
   }
 }
+
+export const startLoadingNotes = () => {
+  return async (dispatch, getState) => {
+    const { uid } = getState().auth
+    console.log(uid)
+  }
+}

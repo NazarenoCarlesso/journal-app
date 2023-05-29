@@ -3,8 +3,8 @@ import { Google } from '@mui/icons-material'
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkingAuthentication, startGoogleSignIn, startLoginUserWithEmail } from '../../store/auth/thunks'
-import { useEffect, useMemo } from 'react'
+import { startGoogleSignIn, startLoginUserWithEmail } from '../../store/auth/thunks'
+import { useMemo } from 'react'
 import { CheckingAuth } from './Checking'
 import { Navigate } from 'react-router-dom'
 
@@ -18,10 +18,7 @@ export const LogIn = () => {
   const { status, errorMessage } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
-  const { formState, email, password, onInputChange } = useForm({
-    email: '',
-    password: ''
-  })
+  const { formState, email, password, onInputChange } = useForm(formData)
 
   const isAuthenticating = useMemo(() => status === 'checking', [status])
 
@@ -41,10 +38,6 @@ export const LogIn = () => {
     dispatch(startGoogleSignIn())
   }
 
-  useEffect(() => {
-    if (status === 'checking') dispatch(checkingAuthentication())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   if (status === 'checking') return <CheckingAuth />
   if (status === 'authenticated') return <Navigate to='/journal' />
 

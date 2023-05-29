@@ -13,7 +13,6 @@ export const authSlice = createSlice({
   },
   reducers: {
     login: (state, { payload }) => {
-      console.log('login', payload)
       state.status = 'authenticated'
       state.uid = payload.uid
       state.email = payload.email
@@ -28,7 +27,6 @@ export const authSlice = createSlice({
       }))
     },
     logout: (state) => {
-      console.log('logout')
       state.status = 'not-authenticated'
       state.uid = null
       state.email = null
@@ -38,7 +36,6 @@ export const authSlice = createSlice({
       localStorage.removeItem('user')
     },
     checkingCredentials: (state) => {
-      console.log('Checking... ')
       state.status = 'checking'
     }
   }

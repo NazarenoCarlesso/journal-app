@@ -1,10 +1,17 @@
-import { TurnedInNot } from '@mui/icons-material'
-import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { Box, Divider, Drawer, List, Toolbar, Typography } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { loadNotes } from '../../store/journal/thunks'
+import { SideNote } from './SideNote'
 
 // eslint-disable-next-line react/prop-types
 export const Sidebar = ({ drawerWidth }) => {
+  const dispatch = useDispatch()
+
   const { displayName } = useSelector(state => state.auth)
+  const { notes } = useSelector(state => state.journal)
+
+  useEffect(() => { dispatch(loadNotes()) }, [dispatch])
 
   return (
     <Box
@@ -21,26 +28,14 @@ export const Sidebar = ({ drawerWidth }) => {
         }}
       >
         <Toolbar sx={{ alignSelf: 'center' }}>
-          <Typography variant='h6' noWrap>
+          <Typography variant='h6' noWrap className='animate__animated animate__fadeInLeft animate__faster'>
             {displayName}
           </Typography>
         </Toolbar>
         <Divider />
         <List>
           {
-            ['Enero', 'Febrero', 'Marzo', 'Abril'].map(t => (
-              <ListItem key={t} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <TurnedInNot />
-                  </ListItemIcon>
-                  <Grid container>
-                    <ListItemText primary={t} />
-                    <ListItemText secondary={'Lorem ipsum dolor sit amet consectetur.'} />
-                  </Grid>
-                </ListItemButton>
-              </ListItem>
-            ))
+            notes.map(note => <SideNote key={note.id} note={note} />)
           }
         </List>
       </Drawer>
