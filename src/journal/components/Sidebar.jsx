@@ -11,7 +11,10 @@ export const Sidebar = ({ drawerWidth }) => {
   const { displayName } = useSelector(state => state.auth)
   const { notes } = useSelector(state => state.journal)
 
-  useEffect(() => { dispatch(loadNotes()) }, [dispatch])
+  useEffect(() => {
+    // console.warn('useEffect call')
+    dispatch(loadNotes())
+  }, [dispatch])
 
   return (
     <Box

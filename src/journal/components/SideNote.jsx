@@ -7,6 +7,8 @@ import { setActiveNote } from '../../store/journal/journalSlice'
 export const SideNote = ({ note }) => {
   const dispatch = useDispatch()
 
+  const secondaryText = note.body.slice(0, 32).concat(note.body.length > 32 ? '... ' : '')
+
   return (
     <ListItem
       className='animate__animated animate__fadeInLeft animate__faster'
@@ -19,7 +21,7 @@ export const SideNote = ({ note }) => {
         </ListItemIcon>
         <Grid container>
           <ListItemText primary={note.title} />
-          <ListItemText secondary={note.body} />
+          <ListItemText secondary={secondaryText} sx={{ minWidth: 150 }} />
         </Grid>
       </ListItemButton>
     </ListItem>

@@ -9,6 +9,7 @@ export const CheckingAuth = () => {
   const { status } = useSelector(state => state.auth)
 
   useEffect(() => {
+    // console.warn('useEffect call')
     dispatch(checkingAuthentication())
   }, [dispatch])
 
