@@ -1,11 +1,11 @@
-import { SaveOutlined } from '@mui/icons-material'
-import { Button, Grid, TextField, Typography } from '@mui/material'
+import { DeleteOutline, SaveOutlined, UploadOutlined } from '@mui/icons-material'
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
 import { ImageGalery } from '../components/ImageGalery'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from '../../hooks/useForm'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { setActiveNote } from '../../store/journal/journalSlice'
-import { startSavingNote } from '../../store/journal/thunks'
+import { startDeletingNote, startSavingNote, startUploadingFiles } from '../../store/journal/thunks'
 import Swal from 'sweetalert2'
 
 export const NoteView = () => {
@@ -31,6 +31,18 @@ export const NoteView = () => {
 
   const onSaveNote = () => { dispatch(startSavingNote()) }
 
+  const onFileInputChange = ({ target }) => {
+    if (target.files === 0) return;
+    // console.log('subiendo archivos')
+    dispatch(startUploadingFiles(target.files))
+  }
+
+  const onDelete = () => {
+    dispatch(startDeletingNote())
+  }
+
+  const fileInputRef = useRef()
+
   return (
     <Grid
       container
@@ -45,6 +57,10 @@ export const NoteView = () => {
           {dateString}
         </Typography>
       </Grid>
+      <input type='file' multiple onChange={onFileInputChange} style={{ display: 'none' }} ref={fileInputRef} />
+      <IconButton color='primary' disabled={isSaving} onClick={() => fileInputRef.current.click()}>
+        <UploadOutlined />
+      </IconButton>
       <Grid item>
         <Button
           color='primary'
@@ -80,8 +96,13 @@ export const NoteView = () => {
           onChange={onInputChange}
         />
       </Grid>
+      <Grid container justifyContent='end'>
+        <Button onClick={onDelete} sx={{ mt: 2 }} color='error'>
+          <DeleteOutline />
+        </Button>
+      </Grid>
       {/* Image Galery */}
-      <ImageGalery />
+      <ImageGalery images={note.imageUrls} />
     </Grid>
   )
 }
