@@ -4,17 +4,21 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore/lite'
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+const apiKey = import.meta.env.VITE_API_KEY
+const authDomain = import.meta.env.VITE_AUTH_DOMAIN
+const projectId = import.meta.env.VITE_PROJECT_ID
+const storageBucket = import.meta.env.VITE_STORAGE_BUCKET
+const messagingSenderId = import.meta.env.VITE_MESSAGING_SENDER_ID
+const appId = import.meta.env.VITE_APP_ID
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCJq5sl1w2Qk0GdXvraKJd6w0igb3fOD5s",
-  authDomain: "journal-app-39d36.firebaseapp.com",
-  projectId: "journal-app-39d36",
-  storageBucket: "journal-app-39d36.appspot.com",
-  messagingSenderId: "217494139212",
-  appId: "1:217494139212:web:ca02dd6b981ba3af741fe9"
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId
 }
-
 // Initialize Firebase
 export const FirebaseApp = initializeApp(firebaseConfig)
 // Export Firebase products
